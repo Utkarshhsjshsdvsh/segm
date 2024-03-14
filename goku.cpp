@@ -1,3 +1,47 @@
+class st{
+    public:
+    vector<int>seg;
+    st(int n)
+    {
+        seg.resize(4*n,0);
+    }
+    void build(int ind,int lo,int hi)
+    {
+        if(hi==lo){
+            seg[ind]=0;
+            return;
+        }
+        int mid=(hi+lo)/2;
+        build(2*ind+1,lo,mid);
+        build(2*ind+2,mid+1,hi);
+        seg[ind]=0;
+    }
+    void update(int ind,int lo,int hi,int i)
+    {
+        if(lo==hi)
+        {
+            seg[ind]=seg[ind]+1;
+            return;
+        }
+        int mid=(hi+lo)/2;
+        if(i<=mid)
+        update(2*ind+1,lo,mid,i);
+        else
+        update(2*ind+2,mid+1,hi,i);
+        seg[ind]=seg[2*ind+1]+seg[2*ind+2];
+    }
+    int query(int ind,int lo,int hi,int l,int r)
+    {
+        if(hi<l || r<lo)
+        return 0;
+        if(lo>=l && hi<=r)
+        return seg[ind];
+        int mid=(hi+lo)/2;
+        int left=query(2*ind+1,lo,mid,l,r);
+        int right=query(2*ind+2,mid+1,hi,l,r);
+        return left+right; 
+    }
+};
 #include <bits/stdc++.h>
 using namespace std;
 void build(int ind,int lo,int hi,vector<int>&arr,vector<int>&seg,int orr)
