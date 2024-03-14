@@ -1,0 +1,45 @@
+long mod1=1e9+7;
+    long mod2=1e9+11;
+    long rabin(string s,long mod)
+    {
+        long val=0;
+        long mul=1;
+        long m=s.size();
+        for(long i=m-1;i>=0;i--)
+        {
+          val=(val%mod+((long)(s[i]-'a')*mul%mod)%mod)%mod;
+          mul=(mul%mod*26%mod)%mod;
+        }
+        return val;
+    }
+    int strStr(string s, string needle) {
+        long m=needle.size();
+        long maxi=1,maxi2=1;
+        long n=s.size();
+        for(long i=0;i<m;i++)
+        {
+            maxi=(maxi%mod1*26%mod1)%mod1;
+            maxi2=(maxi2%mod2*26%mod2)%mod2;
+        }
+        long val=0,val2=0;
+        long mul=1,mul2=1;
+        for(long i=m-1;i>=0;i--)
+        {
+          val=(val%mod1+((long)(s[i]-'a')*mul%mod1)%mod1)%mod1;
+          mul=(mul%mod1*26%mod1)%mod1;
+          val2=(val2%mod2+((long)(s[i]-'a')*mul2%mod2)%mod2)%mod2;
+          mul2=(mul2%mod2*26%mod2)%mod2;
+        }
+        long check1=rabin(needle,mod1);
+        long check2=rabin(needle,mod2);
+        if(check1==val && check2==val2)
+        return 0;
+        for(int i=1;i<=n-m;i++)
+        {
+            long j=i+m-1;
+            val=((val%mod1*26%mod1)%mod1-((s[i-1]-'a')*maxi%mod1)%mod1+(long)(s[j]-'a')+mod1)%mod1;
+            val2=((val2%mod2*26%mod2)%mod2-((s[i-1]-'a')*maxi2%mod2)%mod2+(long)(s[j]-'a')+mod2)%mod2;
+            if(check1==val && check2==val2)
+            return i;
+        }
+        return -1;
