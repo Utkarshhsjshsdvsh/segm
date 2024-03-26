@@ -1,0 +1,15 @@
+int binary(int a,int b,int mod)
+    {
+        int ans=1;
+        a=a%mod;
+        while(b)
+        {
+            if(b&1)
+            {
+              ans=(ans*a)%mod;
+            }
+            a=(a*a)%mod;
+            b=(b>>1);
+        }
+        return ans;
+    }
