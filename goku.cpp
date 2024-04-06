@@ -198,6 +198,87 @@ void solve()
         cout<<query(0,0,s.size()-1,l,r,seg).full*2<<endl;
     }
 }
+##hack with infy range queries
+#include <bits/stdc++.h>
+using namespace std;
+class st{
+    public:
+    vector<vector<int>>seg;
+    st(int n)
+    {
+        seg.resize(4*n,vector<int>(21,0));
+    }
+    void build(int ind,int lo,int hi,vector<int>&arr)
+    {
+        if(hi==lo){
+            seg[ind][arr[lo]]++;
+            return;
+        }
+        int mid=(hi+lo)/2;
+        build(2*ind+1,lo,mid,arr);
+        build(2*ind+2,mid+1,hi,arr);
+        for(int i=1;i<=20;i++)
+        seg[ind][i]=seg[2*ind+1][i]+seg[2*ind+2][i];
+    }
+    void update(int ind,int lo,int hi,int i,int val,bool inc)
+    {
+        if(lo==hi)
+        {
+            if(inc==0)
+            seg[ind][val]=0;
+            else
+            seg[ind][val]++;
+            return;
+        }
+        int mid=(hi+lo)/2;
+        if(i<=mid)
+        update(2*ind+1,lo,mid,i,val,inc);
+        else
+        update(2*ind+2,mid+1,hi,i,val,inc);
+        seg[ind][val]=seg[2*ind+1][val]+seg[2*ind+2][val];
+    }
+    int query(int ind,int lo,int hi,int l,int r,int val)
+    {
+        if(hi<l || r<lo)
+        return 0;
+        if(lo>=l && hi<=r)
+        return seg[ind][val];
+        int mid=(hi+lo)/2;
+        int left=query(2*ind+1,lo,mid,l,r,val);
+        int right=query(2*ind+2,mid+1,hi,l,r,val);
+        return left+right; 
+    }
+};
+int main() {
+    st s(n);
+    int ans=0;
+    int mod=1e9+7;
+    s.build(0,0,n-1,arr);
+    for(int i=0;i<q;i++)
+    {
+        int type=queries[i][0];
+        int l=queries[i][1];
+        int r=queries[i][2];
+        if(type==1)
+        {
+            l--;
+            r--;
+            int maxi=0;
+            for(int j=1;j<=20;j++)
+            maxi=max(maxi,s.query(0,0,n-1,l,r,j));
+            if((r-l+1)%2==0 && maxi<(r-l+1)/2+1)
+            ans=(ans%mod+(r-l+1)%mod)%mod;
+        }
+        else
+        {   
+            l--;
+            r--;
+            s.update(0,0,n-1,l,arr[l],0);
+            s.update(0,0,n-1,l,arr[r],1);
+        }
+    }
+    return ans;
+}
 int main() {
 	solve();
 	return 0;
