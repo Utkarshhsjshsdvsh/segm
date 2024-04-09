@@ -1,0 +1,33 @@
+class disjointset{
+    vector<int>parent,size;
+    public:
+    disjointset(int n)
+    {   parent.resize(n+1);
+        size.resize(n+1);
+        for(int i=0;i<=n;i++)
+        parent[i]=i;
+    }
+    int findulti(int node)
+    {
+        if(node==parent[node])
+        return node;
+        return parent[node]=findulti(parent[node]);
+    }
+    void unionbysize(int u,int v)
+    {
+        int ult_u=findulti(u);
+        int ult_v=findulti(v);
+        if(ult_u==ult_v)
+        return;
+        if(size[ult_u]<size[ult_v])
+        {
+            parent[ult_u]=ult_v;
+            size[ult_v]=size[ult_v]+size[ult_u];
+        }
+        else
+        {
+            parent[ult_v]=ult_u;
+            size[ult_u]=size[ult_v]+size[ult_u];
+        }
+    }
+};
