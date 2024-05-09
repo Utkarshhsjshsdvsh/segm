@@ -13,3 +13,10 @@ long binary(long a,long b,long mod)
     }
     return ans;
 }
+long long int comb(long long int n,long long int r,long long int mod,vector<long long int>&fact)
+{
+    long long int a=fact[n];
+    long long int b=binary(fact[r],mod-2,mod);
+    long long int c=binary(fact[n-r],mod-2,mod);
+    return (((a*b)%mod)*c)%mod;
+}
