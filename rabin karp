@@ -1,3 +1,13 @@
+vector<long long>pref(n,0);
+long mod=1e9+7;
+vector<long long>divide(n,1);
+pref[0]=s[0]-'a'+1;
+for(int i=1;i<n;i++)
+{
+    divide[i]=(divide[i-1]*31)%mod;
+    long long prod=(divide[i]*(s[i]-'a'+1))%mod;
+    pref[i]=(pref[i-1]+prod)%mod;
+}//more relevant
 long mod1=1e9+7;
     long mod2=1e9+11;
     long rabin(string s,long mod)
