@@ -38,3 +38,25 @@ public:
         return ans;
     }
 };
+    trienode* root=new trienode();
+    trienode* curr;
+    long ans=0;
+    for(int i=0;i<words.size();i++)
+    {
+      string s=words[i];
+      int sz=s.size();
+      int ind=0;
+      curr=root; 
+      while(ind<sz)
+      {
+        int num=(s[ind]-'a');
+        if(curr->children.find(num)==curr->children.end())
+        {
+            trienode* child=new trienode();
+            curr->children[num]=child;
+        }
+        curr=curr->children[num];
+        ind++;
+      }
+      curr->cost=min(curr->cost,costs[i]);
+    }
