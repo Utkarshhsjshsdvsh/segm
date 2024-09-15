@@ -60,7 +60,15 @@ public:
       }
       curr->cost=min(curr->cost,costs[i]);
     }
-    class Solution {
+
+
+
+    //**for saving time//**
+
+
+
+
+   class Solution {
     public:
     class trienode
     {
