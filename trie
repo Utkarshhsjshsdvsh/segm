@@ -70,12 +70,14 @@ public:
 
    class Solution {
     public:
-    class trienode
-    {
-        public:
-        vector<trienode*>children;
-        trienode(){
-        children.resize(26,NULL);
+    class trienode {
+    public:
+        trienode* children[26];
+        int cnt;
+        trienode()
+        {   cnt=0;
+            for(int i=0;i<26;i++)
+            children[i]=NULL;
         }
     };
     trienode* root=new trienode();
